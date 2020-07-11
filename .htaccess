@@ -1,0 +1,50 @@
+# DO NOT REMOVE THIS LINE AND THE LINES BELOW SSL_REDIRECT:semillasdealegriaespinal.com
+Options -MultiViews
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP_HOST} ^semillasdealegriaespinal.com$
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
+# DO NOT REMOVE THIS LINE AND THE LINES ABOVE SSL_REDIRECT:semillasdealegriaespinal.com
+#RewriteBase /mnm.team/
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+#Session garbage collector
+php_value session.gc_maxlifetime 21600
+#Error Handler
+ErrorDocument 404 /error.php?e=404
+ErrorDocument 403 /error.php?e=403
+ErrorDocument 401 /error.php?e=401
+ErrorDocument 400 /error.php?e=400
+ErrorDocument 500 /error.php?e=500
+ErrorDocument 502 /error.php?e=502
+ErrorDocument 503 /error.php?e=503
+ErrorDocument 504 /error.php?e=504
+#Alternate Index
+#DirectoryIndex home.php
+DirectoryIndex index.php
+#Misc
+RewriteRule ^home/?$ index.php [NE,QSA]
+RewriteRule ^login/?$ login.php [NE,QSA]
+RewriteRule ^privacy_policy/?$ privacy_policy.php [NE,QSA]
+RewriteRule ^finished_transaction/?$ finished_transaction.php [NE,QSA]
+#ANTISPAM
+#Block proxies almost of all kind. - tested HMA High +KA and did not passed.
+RewriteCond %{HTTP:HTTP_VIA}      !^$ [OR]
+RewriteCond %{HTTP:HTTP_X_FORWARDED_FOR}      !^$ [OR]
+RewriteCond %{HTTP:HTTP_FORWARDED_FOR}      !^$ [OR]
+RewriteCond %{HTTP:HTTP_X_FORWARDED}      !^$ [OR]
+RewriteCond %{HTTP:HTTP_FORWARDED}      !^$ [OR]
+RewriteCond %{HTTP:HTTP_CLIENT_IP}      !^$ [OR]
+RewriteCond %{HTTP:HTTP_FORWARDED_FOR_IP}      !^$ [OR]
+RewriteCond %{HTTP:VIA}      !^$ [OR]
+RewriteCond %{HTTP:X_FORWARDED_FOR}      !^$ [OR]
+RewriteCond %{HTTP:FORWARDED_FOR}      !^$ [OR]
+RewriteCond %{HTTP:X_FORWARDED}      !^$ [OR]
+RewriteCond %{HTTP:FORWARDED}      !^$ [OR]
+RewriteCond %{HTTP:CLIENT_IP}      !^$ [OR]
+RewriteCond %{HTTP:FORWARDED_FOR_IP}      !^$ [OR]
+RewriteCond %{HTTP:HTTP_PROXY_CONNECTION}      !^$
+RewriteRule ^(.*)$ - [F]
+# 5G:[REQUEST METHOD]
+RewriteCond %{REQUEST_METHOD} ^(TRACE|TRACK)
+RewriteRule .* - [F]
