@@ -17,7 +17,7 @@ require("./_values.php");
   <title>Comercializadora de Padilla - Espinal</title>
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="./plugin/js/jquery-3.2.1.slim.min.js"></script>
+  <script src="./plugin/js/jquery-3.5.1.min.js"></script>
   <script src="./plugin/js/popper.js"></script>
   <script src="./plugin/bootstrap-material/js/bootstrap-material-design.js"></script>
   <!--script>$(document).ready(function() { $('body').bootstrapMaterialDesign(); });</script-->

@@ -3,7 +3,6 @@ session_start();
 if (isset($_SESSION['admin']))
   header("Location: admin/");
 require("./header.php");
-//require("./_variables.php");
 if (isset($_POST['btn-login'])) {
   $email = trim($_POST['email']);
   $email = strip_tags($email);
@@ -84,22 +83,18 @@ if (isset($_POST['btn-forget'])) {
 ?>
 <link rel="stylesheet" href="plugin/css/login.css">
 <!-- Main Content -->
-<div class="main-bg" style="background: linear-gradient(rgba(128, 64, 0, 0.33), rgba(0, 0, 0, 0.66)),url(img/bg.jpg) no-repeat center;
-background-size: cover;-webkit-background-size: cover;-moz-background-size: cover;background-size: cover;-ms-background-size: cover;min-height: 100vh;">
+<div class="main-bg">
   <!-- title -->
-  <h1>Comercializadora de Padilla<br>[Facturas]</h1>
+  <h1>Comercializadora de Padilla<br>[Facturas - Administrador]</h1>
   <!-- //title -->
-  <div class="sub-main">
-    <div class="image-style" style="background: linear-gradient(rgba(0, 0, 0, 0), rgba(128, 64, 0, 0.25)),url(img/logo.jpg) no-repeat center;
-    background-size: cover;-webkit-background-size: cover;-moz-background-size: cover;background-size: cover;-ms-background-size: cover;min-height: 370px;">
-    </div>
+  <div class="sub-main row">
     <!-- vertical tabs -->
-    <div class="vertical-tab">
-      <div id="section1" class="section">
-        <input type="radio" name="sections" id="option1" checked />
-        <label for="option1" class="icon-left"><span class="icon fas fa-user-circle" aria-hidden="true"></span>INICIAR SESIÓN</label>
-        <article>
-          <form action="" method="POST">
+    <div class="row col-9 vertical-tab">
+      <div id="section-login" name="section-login" class="section">
+        <input type="radio" name="sections" id="option-login" checked />
+        <label for="option-login" class="icon-left col-3"><span class="icon fas fa-user-circle" aria-hidden="true"></span>INICIAR SESIÓN</label>
+        <article class="col-9">
+          <form action="<?= $_SERVER['PHP_SELF']; ?>" method="POST">
             <h3 class="legend">INGRESE AQUÍ</h3>
             <div class="input">
               <span class="fas fa-envelope" aria-hidden="true"></span>
@@ -113,48 +108,27 @@ background-size: cover;-webkit-background-size: cover;-moz-background-size: cove
           </form>
         </article>
       </div>
-      <div id="section3" class="section">
-        <input type="radio" name="sections" id="option3" />
-        <label for="option3" class="icon-left"><span class="icon fas fa-lock" aria-hidden="true"></span>¿OLVIDÓ SU CONTRASEÑA?</label>
-        <article>
-          <form action="" method="POST">
+      <div id="section-forget" name="section-forget" class="section">
+        <input type="radio" name="sections" id="option-forget" />
+        <label for="option-forget" class="icon-left col-3"><span class="icon fas fa-lock" aria-hidden="true"></span>¿OLVIDÓ SU CONTRASEÑA?</label>
+        <article class="col-9">
+          <form action="<?= $_SERVER['PHP_SELF']; ?>" method="POST">
             <h3 class="legend last">RECUPERAR CONTRASEÑA</h3>
-            <p class="para-style">Ingrese el correo de la cuenta para recibir un nuevo acceso con una contraseña provicional. (Revise también la carpeta de spam.)</p>
-            <p class="para-style-2"><strong>¿Necesita ayuda?</strong> Considere <a href="#">contactar a su administrador.</a></p>
+            <p class="para-style">Ingrese el correo de la cuenta para recibir un nuevo acceso con una contraseña provicional. (Revise también la carpeta de spam.)<br><strong>¿Necesita ayuda?</strong> Considere <a href="#">contactar a su administrador.</a></p>
             <div class="input">
               <span class="fas fa-envelope" aria-hidden="true"></span>
-              <input type="email" placeholder="Correo electrónico" name="forget-email" required />
+              <input type="email" placeholder="Correo electrónico" id="forget-email" name="forget-email" required />
             </div>
-            <input type="submit" class="btn submit" name="btn-forget" value="RECUPERAR" />
+            <input type="submit" class="btn submit" id="btn-forget" name="btn-forget" value="RECUPERAR" />
           </form>
         </article>
       </div>
-      <div id="section2" class="section">
-        <a href="./"><label for="option2" class="icon-left"><span class="fas fa-chevron-circle-left" aria-hidden="true"></span><span class="fas fa-file-invoice-dollar" aria-hidden="true"></span>RECAUDOS</label></a>
-        <!--input type="radio" name="sections" id="option2" />
-        <article>
-          <form action="#" method="post">
-            <h3 class="legend">REGISTRESE AQUÍ</h3>
-            <p class="para-style">Ingrese los datos para enviar una solicitud de creación de la cuenta.</p>
-            <p class="para-style-2"><strong>¿Necesita ayuda?</strong> Considere <a href="#">contactar a su administrador.</a></p>
-            <div class="input">
-              <span class="fas fa-id-card" aria-hidden="true"></span>
-              <input type="text" placeholder="Número de identificación" name="name" required />
-            </div>
-            <div class="input">
-              <span class="fas fa-user" aria-hidden="true"></span>
-              <input type="text" placeholder="Nombre completo" name="name" required />
-            </div>
-            <div class="input">
-              <span class="fas fa-envelope" aria-hidden="true"></span>
-              <input type="text" placeholder="Correo electrónico" name="name" required />
-            </div>
-            <input type="submit" class="btn submit" name="btn-register" value="SOLICITAR" />
-          </form>
-        </article-->
+      <div id="section0" class="section">
+        <a href="./"><label for="option0" class="icon-left"><span class="fas fa-chevron-circle-left" aria-hidden="true"></span><span class="fas fa-file-invoice-dollar" aria-hidden="true"></span>RECAUDOS</label></a>
       </div>
     </div>
     <!-- //vertical tabs -->
+    <div class="image-style col-3"></div>
     <div class="clear"></div>
   </div>
   <!-- copyright -->
