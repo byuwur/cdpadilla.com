@@ -88,12 +88,13 @@ if (isset($_POST['btn-forget'])) {
   <h1>Comercializadora de Padilla<br>[Facturas - Administrador]</h1>
   <!-- //title -->
   <div class="sub-main row">
+    <div class="image-style col-12 col-lg-3"></div>
     <!-- vertical tabs -->
-    <div class="row col-9 vertical-tab">
+    <div class="row col-12 col-lg-9 vertical-tab">
       <div id="section-login" name="section-login" class="section">
         <input type="radio" name="sections" id="option-login" checked />
-        <label for="option-login" class="icon-left col-3"><span class="icon fas fa-user-circle" aria-hidden="true"></span>INICIAR SESIÓN</label>
-        <article class="col-9">
+        <label for="option-login" class="icon-left col-12 col-lg-2 col-xl-1"><span class="icon fas fa-user-circle" aria-hidden="true"></span>INICIAR SESIÓN</label>
+        <article class="col-12 col-lg-9 form">
           <form action="<?= $_SERVER['PHP_SELF']; ?>" method="POST">
             <h3 class="legend">INGRESE AQUÍ</h3>
             <div class="input">
@@ -110,8 +111,8 @@ if (isset($_POST['btn-forget'])) {
       </div>
       <div id="section-forget" name="section-forget" class="section">
         <input type="radio" name="sections" id="option-forget" />
-        <label for="option-forget" class="icon-left col-3"><span class="icon fas fa-lock" aria-hidden="true"></span>¿OLVIDÓ SU CONTRASEÑA?</label>
-        <article class="col-9">
+        <label for="option-forget" class="icon-left col-12 col-lg-2 col-xl-1"><span class="icon fas fa-lock" aria-hidden="true"></span>¿OLVIDÓ SU CONTRASEÑA?</label>
+        <article class="col-12 col-lg-9 form">
           <form action="<?= $_SERVER['PHP_SELF']; ?>" method="POST">
             <h3 class="legend last">RECUPERAR CONTRASEÑA</h3>
             <p class="para-style">Ingrese el correo de la cuenta para recibir un nuevo acceso con una contraseña provicional. (Revise también la carpeta de spam.)<br><strong>¿Necesita ayuda?</strong> Considere <a href="#">contactar a su administrador.</a></p>
@@ -124,11 +125,10 @@ if (isset($_POST['btn-forget'])) {
         </article>
       </div>
       <div id="section0" class="section">
-        <a href="./"><label for="option0" class="icon-left"><span class="fas fa-chevron-circle-left" aria-hidden="true"></span><span class="fas fa-file-invoice-dollar" aria-hidden="true"></span>RECAUDOS</label></a>
+        <a href="./"><label for="option0" class="icon-left col-12 col-lg-2 col-xl-1"><span class="fas fa-chevron-circle-left" aria-hidden="true"></span><span class="fas fa-file-invoice-dollar" aria-hidden="true"></span>RECAUDOS</label></a>
       </div>
     </div>
     <!-- //vertical tabs -->
-    <div class="image-style col-3"></div>
     <div class="clear"></div>
   </div>
   <!-- copyright -->

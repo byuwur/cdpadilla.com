@@ -1,8 +1,8 @@
 <?php
 session_start();
 require("./_connect.php");
-if (isset($_POST['prefijo']) && isset($_POST['verif-factura'])) {
-    $id = trim($_POST['prefijo'] . $_POST['verif-factura']);
+if (isset($_POST['verif-prefijo']) && isset($_POST['verif-factura'])) {
+    $id = trim($_POST['verif-prefijo'] . $_POST['verif-factura']);
     $id = strip_tags($id);
     $id = htmlspecialchars($id);
     $sql = $conn->query("SELECT * FROM cdp_facturas WHERE IDFACTURA='$id';");
@@ -11,22 +11,20 @@ if (isset($_POST['prefijo']) && isset($_POST['verif-factura'])) {
         $row = mysqli_fetch_assoc($sql);
         $rowPago = mysqli_fetch_assoc($conn->query("SELECT * FROM cdp_pagos WHERE cdp_facturas_IDFACTURA='$id';"));
         if ($rowPago['ESTADOPAGO']) {
-            $estadoPago = "PAGO";
             $response[] = array(
                 "error" => true,
                 "status" => "alert-warning",
-                "message" => "<strong>La factura \"$id\" existe.</strong><hr><p>Estado del pago: <strong>$estadoPago</strong></p><hr><p><strong>NO</strong> ES NECESARIO REALIZAR RECAUDO.<br><br>Valor: <strong>\$$row[VALORFACTURA]</strong> (Cancelado)<br>Concepto: <strong>$row[CONCEPTOFACTURA]</strong></p>"
+                "message" => "<strong>La factura \"$id\" existe.</strong><hr><p>Estado del pago: <strong>PAGO</strong></p><hr><p><strong>NO</strong> ES NECESARIO REALIZAR RECAUDO.<br><br>Valor: <strong>\$$row[VALORFACTURA]</strong> (Pagado)<br>Concepto: <strong>$row[CONCEPTOFACTURA]</strong></p>"
             );
         } else {
-            $estadoPago = "PENDIENTE";
             $response[] = array(
                 "error" => false,
                 "status" => "alert-success",
+                "message" => "<strong>La factura \"" . $id . "\" SÍ existe.</strong><hr><p>Estado del pago: <strong>PEDIENTE</strong></p><hr><p>Valor: <strong>\$$row[VALORFACTURA]</strong><br>Concepto: <strong>$row[CONCEPTOFACTURA]</strong><br>Vendido a: <strong>$row[NOMBREFACTURA]</strong><br>Vendido el: <strong>$row[FECHAFACTURA]</strong></p>",
                 "pago" => $rowPago["ESTADOPAGO"],
-                "message" => "<strong>La factura \"" . $id . "\" SÍ existe.</strong><hr><p>Estado del pago: <strong>$estadoPago</strong></p><hr><p>Valor: <strong>\$$row[VALORFACTURA]</strong><br>Concepto: <strong>$row[CONCEPTOFACTURA]</strong><br>Vendido a: <strong>$row[NOMBREFACTURA]</strong><br>Vendido el: <strong>$row[FECHAFACTURA]</strong></p>",
                 "factura" => $row["IDFACTURA"],
                 "concepto" => $row["CONCEPTOFACTURA"],
-                "descripcion" => "Pago de la factura \"$row[IDFACTURA]\"",
+                "descripcion" => "Pago de la factura '$row[IDFACTURA]'",
                 "valor" => $row["VALORFACTURA"]
             );
         }

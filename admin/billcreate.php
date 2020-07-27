@@ -25,7 +25,7 @@ if (isset($_POST['crear'])) {
 
   $sql = $conn->query(" INSERT INTO cdp_facturas (IDFACTURA, NUIPFACTURA, NOMBREFACTURA, CONCEPTOFACTURA, VALORFACTURA, FECHAFACTURA, VENCIMIENTOFACTURA) VALUES ('$id', '$nuip', '$nombre', '$concepto', '$valor', '$fecha', '$vencimiento'); ");
   if ($sql) {
-    $sqlPago = $conn->query(" INSERT INTO cdp_pagos (cdp_facturas_IDFACTURA, ESTADOPAGO, TIPODOCPAGO, NUIPPAGO, NOMBREPAGO, CORREOPAGO, TELEFONOPAGO) VALUES ('$id', '0', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A'); ");
+    $sqlPago = $conn->query(" INSERT INTO cdp_pagos (cdp_facturas_IDFACTURA, ESTADOPAGO, TIPODOCPAGO, NUIPPAGO, NOMBREPAGO, CORREOPAGO, TELEFONOPAGO, REFEPAYCO, APIEPAYCO) VALUES ('$id', '0', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A'); ");
     if ($sqlPago) echo "<script>console.log('Registro exitoso en la tabla de pagos.');</script>"; else echo "<script>console.log('No fue posible hacer el registro en la tabla de pagos: $conn->error')</script>";
     messageModal("CREAR", "Factura creada.", "bill.php", "success");
     exit;
@@ -45,7 +45,6 @@ if (isset($_POST['crear'])) {
           <select class="form-dropdown col-6" id="prefijo" name="prefijo" required>
             <?php
             $sqlprefijo = $conn->query("SELECT * FROM cdp_prefijos; ");
-            echo "<option id='none' name='none' value=''>- - Sin prefijo de factura - -</option>";
             while ($prefijoarray = mysqli_fetch_assoc($sqlprefijo)) {
               echo "<option id=" . $prefijoarray["IDPREFIJO"] . " name=" . $prefijoarray["IDPREFIJO"] . " value=" . $prefijoarray["IDPREFIJO"] . ">" . $prefijoarray["IDPREFIJO"] . "</option>";
             }

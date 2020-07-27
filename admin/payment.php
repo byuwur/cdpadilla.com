@@ -35,6 +35,12 @@ require("./header.php");
         <div class="col-6 col-md-4">
           <small>Teléfono del pagador:</small><br><b><?= $res['TELEFONOPAGO']; ?></b>
         </div>
+        <div class="col-6">
+          <small>Referencia de pago en ePayco:</small><br><b><?= $res['REFEPAYCO']; ?></b>
+        </div>
+        <div class="col-6">
+          <small>ID de API en ePayco:</small><br><a href="https://secure.epayco.co/validation/v1/reference/<?= $res['APIEPAYCO']; ?>" target="_blank"><b><?= $res['APIEPAYCO']; ?></b></a>
+        </div>
       </div>
     <?php
     }

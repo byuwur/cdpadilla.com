@@ -13,7 +13,7 @@ require("../_values.php");
   <!-- Material Design for Bootstrap fonts and icons -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
   <!-- Material Design for Bootstrap CSS -->
-  <link rel="stylesheet" href="../plugin/bootstrap-material/css/bootstrap-material-design.min.css">
+  <link rel="stylesheet" href="../plugin/bootstrap-material/css/bootstrap-material-design.css">
   <link rel="stylesheet" href="../plugin/fontawesome/css/all.min.css">
   <link rel="stylesheet" href="../plugin/css/main.css">
   <title>Comercializadora de Padilla - Espinal</title>

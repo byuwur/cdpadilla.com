@@ -3,35 +3,24 @@ session_start();
 require("./header.php");
 ?>
 <link rel="stylesheet" href="plugin/css/login.css">
-<style>
-  .form-dropdown {
-    background-color: #ccc;
-    color: #000;
-    border: 4px solid #aaa;
-    border-radius: 8px;
-    -webkit-appearance: menulist;
-    -moz-appearance: menulist;
-    -ms-appearance: menulist;
-    appearance: menulist;
-  }
-</style>
 <!-- Main Content -->
 <div class="main-bg">
   <!-- title -->
   <h1>Comercializadora de Padilla<br>[Recaudos - Transacciones]</h1>
   <!-- //title -->
   <div class="sub-main row">
+    <div class="image-style col-12 col-lg-3"></div>
     <!-- vertical tabs -->
-    <div class="row col-9 vertical-tab">
+    <div class="row col-12 col-lg-9 vertical-tab">
       <div id="section-verif" class="section">
         <input type="radio" name="sections" id="option-verif" checked />
-        <label for="option-verif" class="icon-left col-sm-1 col-md-2"><span class="icon fas fa-file-invoice-dollar" aria-hidden="true"></span>DATOS DE FACTURA</label>
-        <article class="col-9">
+        <label for="option-verif" class="icon-left col-12 col-lg-2 col-xl-1"><span class="icon fas fa-file-invoice-dollar" aria-hidden="true"></span>DATOS DE FACTURA</label>
+        <article class="col-12 col-lg-9 form">
           <form id="verif-form" name="verif-form" method="POST">
             <h3 class="legend">VERIFICAR FACTURA</h3>
             <p class="para-style">Ingrese el número de factura de venta para comprobar la existencia de su factura.<br>Cuando compruebe su factura, <strong>diríjase a llenar los datos del pagador</strong>.<br>Si <strong>necesita ayuda,</strong> no dude en <a href="#">contactarnos</a>.</p>
             <div class="row group">
-              <select class="input form-dropdown col-5" id="prefijo" name="prefijo" required>
+              <select class="input form-dropdown col-5" id="verif-prefijo" name="verif-prefijo" required>
                 <?php
                 $sqlprefijo = $conn->query("SELECT * FROM cdp_prefijos; ");
                 /*echo "<option id='none' name='none' value=''>-Seleccionar prefijo de factura-</option>";*/
@@ -52,17 +41,21 @@ require("./header.php");
       </div>
       <div id="section-pay" class="section">
         <input type="radio" name="sections" id="option-pay" disabled />
-        <label for="option-pay" class="icon-left col-3"><span class="icon fas fa-user-circle" aria-hidden="true"></span>DATOS DEL PAGADOR</label>
-        <article class="col-9">
+        <label for="option-pay" class="icon-left col-12 col-lg-2 col-xl-1"><span class="icon fas fa-user-circle" aria-hidden="true"></span>DATOS DEL PAGADOR</label>
+        <article class="col-12 col-lg-9 form">
           <form id="pay-form" name="pay-form" method="POST">
             <h3 class="legend last">INGRESAR DATOS DEL PAGADOR</h3>
             <p class="para-style">Ingrese <strong>todos</strong> los datos requeridos (*) a continuación.<br>Cuando esté listo, <strong>podrá pulsar el boton "Pagar con ePayco" para realizar la transacción</strong>.<br>Si <strong>necesita ayuda,</strong> no dude en <a href="#">contactarnos</a>.</p>
             <div class="row group">
               <div class="input col-12">
+                <span class="fas fa-envelope" aria-hidden="true"></span>
+                <input type="email" placeholder="Correo electrónico *" id="pay-email" name="pay-email" required />
+              </div>
+              <div class="input col-12">
                 <span class="fas fa-user" aria-hidden="true"></span>
                 <input type="text" placeholder="Nombre completo *" id="pay-name" name="pay-name" required />
               </div>
-              <select class="input form-dropdown col-5" id="pay-tipo-doc" name="pay-tipo-doc">
+              <select class="input form-dropdown col-5" id="pay-tipo-doc" name="pay-tipo-doc" required>
                 <option id="CC" name="CC" value="CC">CC - Cédula de ciudadanía</option>
                 <option id="CE" name="CE" value="CE">CE - Cédula de extranjería</option>
                 <option id="PPN" name="PPN" value="PPN">PPN - Pasaporte</option>
@@ -77,21 +70,21 @@ require("./header.php");
                 <input type="text" placeholder="Documento de identificación *" id="pay-nuip" name="pay-nuip" required />
               </div>
               <div class="input col-12">
-                <span class="fas fa-envelope" aria-hidden="true"></span>
-                <input type="email" placeholder="Correo electrónico *" id="pay-email" name="pay-email" required />
-              </div>
-              <div class="input col-12">
                 <span class="fas fa-phone-alt" aria-hidden="true"></span>
                 <input type="number" placeholder="Número telefónico" id="pay-phone" name="pay-phone" />
               </div>
-              <div id="btn-pay" name="btn-pay" class="col-12" style="display: none; opacity: 0;"></div>
+              <div class="input col-12">
+                <span class="fas fa-address-book" aria-hidden="true"></span>
+                <input type="text" placeholder="Dirección" id="pay-address" name="pay-address" />
+              </div>
+              <div id="btn-pay" name="btn-pay" class="col-12" style="display: none; opacity: 0;">
+              </div>
             </div>
           </form>
         </article>
       </div>
     </div>
     <!-- //vertical tabs -->
-    <div class="image-style col-3"></div>
     <div class="clear"></div>
   </div>
   <!-- copyright -->
@@ -105,26 +98,32 @@ require("./header.php");
   <!-- //copyright -->
 </div>
 <script>
+  $("#verif-factura").focus();
+  $("#verif-form").submit(function(e) {
+    e.preventDefault();
+  });
+  $("#pay-form").submit(function(e) {
+    e.preventDefault();
+  });
+
   function restoreResponse() {
-    $("#verif-response").removeClass("alert-info");
-    $("#verif-response").removeClass("alert-danger");
-    $("#verif-response").removeClass("alert-success");
-    $("#verif-response").removeClass("alert-warning");
+    $("#verif-response").removeClass("alert-info alert-danger alert-success alert-warning");
     $("#verif-response").html("");
   }
+
+  var $amount, $pago, $name, $description, $invoice;
 
   function verificarFactura() {
     restoreResponse();
     $("#verif-response").addClass("alert-info");
-    $("#verif-response").html("<strong>Está verificándose la existencia de la factura \"" + $("#prefijo").val() + $("#verif-factura").val() + "\".</strong><hr><p>Espere un momento...</p>");
+    $("#verif-response").html("<strong>Está verificándose la existencia de la factura \"" + $("#verif-prefijo").val() + $("#verif-factura").val() + "\".</strong><hr><p>Espere un momento...</p>");
     $.ajax({
       url: "verif-factura.php",
       type: "POST",
-      data: $("#verif-form").serialize(),
       dataType: 'json',
+      data: $("#verif-form").serialize(),
       success: function(response) {
         $.each(response, function(index, element) {
-          console.log(element);
           restoreResponse();
           if (element.error) {
             $("#verif-response").addClass(element.status);
@@ -134,6 +133,11 @@ require("./header.php");
               "display": "none",
               "opacity": "0"
             });
+            $amount = "";
+            $pago = 1;
+            $name = "";
+            $description = "";
+            $invoice = "";
           } else {
             $("#verif-response").addClass(element.status);
             $("#verif-response").html(element.message);
@@ -142,46 +146,61 @@ require("./header.php");
               "display": "block",
               "opacity": "1"
             });
+            $amount = element.valor;
+            $pago = element.pago;
+            $name = element.concepto;
+            $description = element.descripcion;
+            $invoice = element.factura;
           }
         })
       }
     });
   }
 
-  function verificarDatosForm(element) {
-    var $form = $(element),
+  function verificarDatosForm(e) {
+    var $form = $(e),
       $required = $form.find("input:required"),
       $submit = $form.find("input[type='submit']");
     $submit.prop('disabled', true);
     $required.keyup(function() {
-      $form.data("empty", "false");
+      $form.data("filled", 1);
       $required.each(function() {
-        if ($(this).val() == "") $form.data("empty", "true");
+        if ($(this).val() == "") $form.data("filled", 0);
       });
-      /*if ($form.data("empty") == "true") $submit.prop('disabled', true);
-      else if ($form.data("empty") == "false") $submit.prop('disabled', false);*/
+      /*if ($form.data("empty")) $submit.prop('disabled', true);
+      else if ($form.data("empty")) $submit.prop('disabled', false);*/
     });
-    if ($form.data("empty") == "true") return 0;
-    else if ($form.data("empty") == "false") return 1;
+    if ($form.data("filled") == 1) return 1;
+    else if (!$form.data("filled") == 0) return 0;
   }
 
-  $("#pay-form").keyup(function() {
+  function verificarBtnPay() {
     if (verificarDatosForm("#pay-form")) {
-      console.log("form lleno");
+      $("#btn-pay").css({
+        "display": "block",
+        "opacity": "1"
+      });
+      if ($pago == 0) $("#btn-pay").html("<script src=\"https://checkout.epayco.co/checkout.js\" class=\"epayco-button\" data-epayco-external=\"false\" data-epayco-key=\"a786759b00b28afdfe9a4b9249eaf6a1\" data-epayco-amount=\"" + $amount + "\" data-epayco-name=\"" + $name + "\" data-epayco-description=\"" + $description + "\" data-epayco-currency=\"cop\" data-epayco-country=\"co\" data-epayco-lang=\"es\" data-epayco-test=\"true\" data-epayco-invoice=\"" + $invoice + "\" data-epayco-button=\"./img/btn-pay.png\" data-epayco-response=\"./pay-done.php\" data-epayco-autoclick=\"false\" data-epayco-email-billing=\"" + $("#pay-email").val() + "\" data-epayco-name-billing=\"" + $("#pay-name").val() + "\" data-epayco-type-doc-billing=\"" + $("#pay-tipo-doc").val() + "\" data-epayco-number-doc-billing=\"" + $("#pay-nuip").val() + "\" data-epayco-mobilephone-billing=\"" + $("#pay-phone").val() + "\" data-epayco-address-billing=\"" + $("#pay-address").val() + "\" >");
+      else if ($pago == 1) $("#btn-pay").html("LA FACTURA YA HA SIDO PAGADA.");
     } else {
-      console.log("form sin llenar");
+      $("#btn-pay").css({
+        "display": "none",
+        "opacity": "0"
+      });
+      $("#btn-pay").html("");
     }
-  });
+  }
 
-  $("#verif-form").submit(function(e) {
-    e.preventDefault();
+  $("#pay-form").keyup(verificarBtnPay);
+  $("#pay-tipo-doc").change(verificarBtnPay);
+  $("#verif-form").keyup(function() {
+    verificarFactura();
+    verificarBtnPay();
   });
-  $("#pay-form").submit(function(e) {
-    e.preventDefault();
+  $("#verif-prefijo").change(function() {
+    verificarFactura();
+    verificarBtnPay();
   });
-
-  $("#verif-factura").keyup(verificarFactura);
-  $("#prefijo").change(verificarFactura);
 </script>
 <?php
 require("./footer.php");

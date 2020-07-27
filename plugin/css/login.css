@@ -240,7 +240,7 @@ h1 {
 
 .image-style {
   position: relative;
-  background: linear-gradient(rgba(0, 0, 0, 0), rgba(128, 64, 0, 0.25)),
+  background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(128, 64, 0, 0.25)),
     url(../../img/logo.jpg) no-repeat center;
   background-size: cover;
   -webkit-background-size: cover;
@@ -283,18 +283,6 @@ h1 {
   width: 100%;
 }
 
-/*.vertical-tab .section article:after {
-    background-color: #fff;
-    bottom: 0;
-    content: "";
-    display: block;
-    left: -229px;
-    position: absolute;
-    top: 0;
-    width: 220px;
-    z-index: 1;
-}*/
-
 .vertical-tab input[name="sections"]:checked + label {
   background: rgb(64, 32, 0);
   border-right: 4px solid #000;
@@ -314,7 +302,7 @@ label.icon-left span.icon {
 /* //vertical tabs */
 
 /* form style */
-.sub-main form {
+.sub-main .form {
   background: #ffff;
   padding: 2em;
 }
@@ -366,7 +354,7 @@ p.para-style {
 
 .submit {
   margin: 1em auto 0;
-  background: rgb(64, 32, 0);
+  background: #402000;
   border: none;
   cursor: pointer;
   font-weight: 600;
@@ -442,132 +430,13 @@ a.bottom-text {
 /* //copyright */
 
 /* responsive */
-/*@media (max-width: 1050px) {
-  .sub-main {
-    max-width: 900px;
-  }
-
-  p.para-style {
-    margin-bottom: 1em;
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 900px) {
-  .sub-main {
-    max-width: 768px;
-  }
-
-  .vertical-tab .section article {
-    min-width: 400px;
-    left: 175px;
-  }
-
-  .vertical-tab .section label {
-    width: 134px;
-    font-size: 15px;
-    padding: 34px 20px;
-  }
-}
-
-@media (max-width: 768px) {
-  .sub-main {
-    max-width: 575px;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-  }
-
+@media (max-width: 991px) {
   .image-style {
     float: none;
-    width: 100%;
-    min-height: 300px;
+    min-height: 400px;
     order: 2;
-  }
-
-  .vertical-tab {
-    float: none;
-    width: 100%;
-  }
-}
-
-@media (max-width: 600px) {
-  .sub-main {
-    max-width: 500px;
-  }
-
-  .vertical-tab .section article {
-    min-width: 365px;
-    left: 135px;
-  }
-
-  .vertical-tab .section label {
-    width: 114px;
-    font-size: 15px;
-    padding: 31px 10px;
-  }
-
-}
-
-@media (max-width: 480px) {
-  .vertical-tab .section article {
-    min-width: 291px;
-    left: 109px;
-  }
-
-  .vertical-tab .section label {
-    width: 89px;
-    font-size: 14px;
-    padding: 26.8px 10px;
-  }
-
-  .sub-main {
-    max-width: 400px;
-  }
-
-  .image-style {
-    min-height: 220px;
-  }
-
-  .sub-main form {
-    padding: 1.5em;
-  }
-
-  .submit {
-    font-size: 14px;
-  }
-
-  .input input {
-    font-size: 13px;
-  }
-
-  p.para-style {
-    margin-bottom: 0.4em;
-    font-size: 13px;
-  }
-
-  p.para-style-2 {
-    font-size: 13px;
-  }
-
-  .input {
-    padding: 12px 12px;
-  }
-
-  a.bottom-text {
-    margin-top: 3em;
-  }
-
-  .last-btn {
-    margin: 1em auto 0;
-  }
-}
-
-@media (max-width: 414px) {
-  .sub-main {
-    max-width: 320px;
+    background: linear-gradient(rgba(128, 64, 0, 0.5), rgba(0, 0, 0, 0.5)),
+      url(../../img/logo.jpg) no-repeat center;
   }
 
   .vertical-tab .section article {
@@ -576,43 +445,29 @@ a.bottom-text {
 
   .vertical-tab .section label {
     width: 100%;
-    font-size: 14px;
-    padding: 20px 0;
-    border-right: none;
-    border-bottom: 1px solid #dcdcdc;
-    border-top: 1px solid #dcdcdc;
+    background: #eee;
   }
 
-  .vertical-tab input[name="sections"]:checked + label {
-    border-right: none;
-    border-bottom: 1px solid #000;
-    border-top: none;
-  }
-
-  .image-style {
-    min-height: 190px;
-  }
-
-  .last-btn {
-    margin: 1.5em auto 0;
-  }
-
-  p.para-style {
-    margin-bottom: 1em;
-  }
-
-  p.para-style-2 {
-    margin-bottom: 2em;
+  .copyright {
+    margin-top: 4vw;
   }
 }
 
-@media (max-width: 320px) {
-  .sub-main {
-    max-width: 270px;
-  }
-
+@media (min-width: 1359px) {
   .vertical-tab .section article {
-    min-width: 270px;
+    flex: 0 0 83.33333%;
+    max-width: 83.33333%;
   }
-}*/
+}
 /* //responsive */
+
+.form-dropdown {
+  background-color: #ccc;
+  color: #000;
+  border: 4px solid #aaa;
+  border-radius: 8px;
+  -webkit-appearance: menulist;
+  -moz-appearance: menulist;
+  -ms-appearance: menulist;
+  appearance: menulist;
+}
