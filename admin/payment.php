@@ -20,7 +20,7 @@ require("./header.php");
           <small>Estado de pago:</small><br>
           <b><?php echo $res['ESTADOPAGO']; if ($res['ESTADOPAGO']) echo " - PAGO"; else echo " - PENDIENTE" ?></b>
         </div>
-        <div class="col-6 col-md-3">
+        <!--div class="col-6 col-md-3">
           <small>Tipo de documento del pagador:</small><br><b><?= $res['TIPODOCPAGO']; ?></b>
         </div>
         <div class="col-6 col-md-3 mb-2">
@@ -34,12 +34,12 @@ require("./header.php");
         </div>
         <div class="col-6 col-md-4">
           <small>Teléfono del pagador:</small><br><b><?= $res['TELEFONOPAGO']; ?></b>
-        </div>
-        <div class="col-6">
+        </div-->
+        <div class="col-6 col-md-3">
           <small>Referencia de pago en ePayco:</small><br><b><?= $res['REFEPAYCO']; ?></b>
         </div>
-        <div class="col-6">
-          <small>ID de API en ePayco:</small><br><a href="https://secure.epayco.co/validation/v1/reference/<?= $res['APIEPAYCO']; ?>" target="_blank"><b><?= $res['APIEPAYCO']; ?></b></a>
+        <div class="col-6 col-md-3">
+          <small>ID de API en ePayco:</small><br><a href="../pay-done.php?ref_payco=<?= $res['APIEPAYCO']; ?>" target="_blank"><b><?= $res['APIEPAYCO']; ?></b></a>
         </div>
       </div>
     <?php

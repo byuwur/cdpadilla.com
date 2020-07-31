@@ -15,34 +15,31 @@ if (isset($_POST['cambiar'])) {
   $correo = trim($_POST['correo']);
   $correo = strip_tags($correo);
   $correo = htmlspecialchars($correo);
+  $pass0 = trim($_POST['password0']);
+  $pass0 = strip_tags($pass0);
+  $pass0 = htmlspecialchars($pass0);
+  $pass1 = trim($_POST['password1']);
+  $pass1 = strip_tags($pass1);
+  $pass1 = htmlspecialchars($pass1);
+  $passwordactual = hash('sha256', $pass0);
+  $passwordnueva = hash('sha256', $pass1);
 
   $sql = $conn->query(" UPDATE cdp_usuarios SET NOMBREUSUARIO='$nombre', CORREOUSUARIO='$correo' WHERE IDUSUARIO='$datosuserarray[IDUSUARIO]'; ");
   if ($sql) {
-    if ((isset($_POST['password0']) != "" || isset($_POST['password0']) != null) && (isset($_POST['password1']) != "" || isset($_POST['password1']) != null)) {
-      $pass0 = trim($_POST['password0']);
-      $pass0 = strip_tags($pass0);
-      $pass0 = htmlspecialchars($pass0);
-      $pass1 = trim($_POST['password1']);
-      $pass1 = strip_tags($pass1);
-      $pass1 = htmlspecialchars($pass1);
-      $passwordactual = hash('sha256', $pass0);
-      $passwordnueva = hash('sha256', $pass1);
-
-      $queryverifpass = $conn->query(" SELECT IDUSUARIO FROM cdp_usuarios WHERE IDUSUARIO = '$datosuserarray[IDUSUARIO]' AND PASSUSUARIO = '$passwordactual'; ");
-      $count = mysqli_num_rows($queryverifpass);
-      if ($count != 1) {
-        messageModal("EDITAR", "Perfil actualizado. ", "admin.php", "success");
-      } else {
-        $query = $conn->query(" UPDATE cdp_usuarios SET PASSUSUARIO = '$passwordnueva' WHERE IDUSUARIO='$datosuserarray[IDUSUARIO]'; ");
-        if ($query) {
-          if ($datosuserarray['USERUSUARIO'] == $_usuario) {
-            messageModal("EDITAR", "Perfil actualizado. Contraseña actualizada. Vuelva a iniciar sesión.", "../logout.php?logout", "success");
-          } else {
-            messageModal("EDITAR", "Perfil actualizado. Contraseña actualizada.", "admin.php", "success");
-          }
+    $queryverifpass = $conn->query(" SELECT IDUSUARIO FROM cdp_usuarios WHERE IDUSUARIO = '$datosuserarray[IDUSUARIO]' AND PASSUSUARIO = '$passwordactual'; ");
+    $count = mysqli_num_rows($queryverifpass);
+    if ($count != 1) {
+      messageModal("EDITAR", "Perfil actualizado. ", "admin.php", "success");
+    } else {
+      $query = $conn->query(" UPDATE cdp_usuarios SET PASSUSUARIO = '$passwordnueva' WHERE IDUSUARIO='$datosuserarray[IDUSUARIO]'; ");
+      if ($query) {
+        if ($datosuserarray['USERUSUARIO'] == $_usuario) {
+          messageModal("EDITAR", "Perfil actualizado. Contraseña actualizada. Vuelva a iniciar sesión.", "../logout.php?logout", "success");
         } else {
-          messageModal("ERROR", "Algo salió mal. Intente más tarde.<br><small>Error $conn->error</small>", "admin.php", "danger");
+          messageModal("EDITAR", "Perfil actualizado. Contraseña actualizada.", "admin.php", "success");
         }
+      } else {
+        messageModal("ERROR", "Algo salió mal. Intente más tarde.<br><small>Error $conn->error</small>", "admin.php", "danger");
       }
     }
   } else {
