@@ -12,10 +12,10 @@ if (!empty($_SESSION['admin'])){
     } else {
         echo "<script>alert('El usuario no existe.');</script>";
         header("Location: ../logout.php?logout");
-        echo '<script type="text/javascript"> window.location = ../logout.php?logout; </script>';
+        echo '<script type="text/javascript"> window.location = "../logout.php?logout"; </script>';
     }
 } else {
     header("Location: ../logout.php?logout");
-    echo '<script type="text/javascript"> window.location = ../logout.php?logout; </script>';
+    echo '<script type="text/javascript"> window.location = "../logout.php?logout"; </script>';
 }
 ?>

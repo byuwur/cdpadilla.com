@@ -2,7 +2,7 @@
 session_start();
 if (isset($_SESSION['admin'])) {
   header("Location: admin/");
-  echo '<script type="text/javascript"> window.location = admin/; </script>';
+  echo '<script type="text/javascript"> window.location = "admin/"; </script>';
 }
 require("./header.php");
 if (isset($_POST['btn-login'])) {
@@ -28,7 +28,7 @@ if (isset($_POST['btn-login'])) {
     if ($password == $row['PASSUSUARIO']) {
       $_SESSION['admin'] = $row['IDUSUARIO'];
       header("Location: admin/");
-      echo '<script type="text/javascript"> window.location = admin/; </script>';
+      echo '<script type="text/javascript"> window.location = "admin/"; </script>';
     } else {
       messageModal("ERROR", "Credenciales incorrectas. Intente de nuevo.", "", "danger");
       exit;
