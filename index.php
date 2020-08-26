@@ -97,7 +97,7 @@ require("./header.php");
   </div>
   <!-- //copyright -->
 </div>
-<script src="./verif-factura.min.js"></script>
+<script src="./verify-factura.min.js"></script>
 <?php
 require("./footer.php");
 ?>
