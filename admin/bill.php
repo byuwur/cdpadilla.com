@@ -9,15 +9,11 @@ if (isset($_POST['delete'])) {
   $fechafactura = htmlspecialchars($fechafactura);
 
   if ($fechafactura == date("Y-m-d")) {
+    $queryPagos = $conn->query(" DELETE FROM cdp_pagos WHERE cdp_facturas_IDFACTURA='$deleteuser'; ");
     $query = $conn->query(" DELETE FROM cdp_facturas WHERE IDFACTURA='$deleteuser'; ");
     if ($query) {
-      if ($deleteuser == $_usuario) {
-        messageModal("ELIMINAR", "Ha eliminado su propio usuario...", "logout.php?logout", "danger");
-        exit;
-      } else {
-        messageModal("ELIMINAR", "Usuario eliminado.", "admin.php", "danger");
-        exit;
-      }
+      messageModal("ELIMINAR", "Registro eliminado.", "bill.php", "danger");
+      exit;
     } else {
       messageModal("ERROR", "Algo salió mal. Intente más tarde.<br><small>Error $conn->errno</small>", "", "danger");
       exit;

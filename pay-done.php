@@ -5,7 +5,7 @@ if (isset($_GET['ref_payco'])) {
   $ref_payco = trim($_GET['ref_payco']);
   $ref_payco = strip_tags($ref_payco);
   $ref_payco = htmlspecialchars($ref_payco);
-  
+
   $response = json_decode(file_get_contents("https://secure.epayco.co/validation/v1/reference/$ref_payco"));
 
   /*$mail_asunto = "Mail subject.";
@@ -13,63 +13,73 @@ if (isset($_GET['ref_payco'])) {
   $mail_message = ' <html><body>Mail text.</body></html> ';
   mail($email, $mail_asunto, $mail_message, $mail_header);*/
 
-  $sqlPay = $conn->query("UPDATE cdp_pagos SET REFEPAYCO = '" . $response->{"data"}->{"x_ref_payco"} . "', APIEPAYCO = '" . $ref_payco . "'  WHERE cdp_facturas_IDFACTURA = '" . $response->{"data"}->{"x_id_invoice"} . "';");
-  if ($sqlPay) echo "<script>console.log('Actualización de datos de PAGO exitosa.');</script>";
-  else echo '<script>console.log("Error en datos de PAGO: ' . $conn->error . '.");</script>';
+  if ($response->{"data"}->{"x_test_request"} == "TRUE") {
+    echo "<script>console.log('Esta joda fue pasada por test. No la reciba.');</script>";
+    echo "<script>console.log('" . $response->{"data"}->{"x_test_request"} . "');</script>";
+    echo "La referencia <strong>" . $response->{"data"}->{"x_ref_payco"} . "</strong> <small>(" . $ref_payco . ")</small> fue realizada como un pago de PRUEBA y no como un pago REAL. Por favor, contacte al administrador de la página si cree que esto es un error.";
+    exit;
+  } else if ($response->{"data"}->{"x_test_request"} == "FALSE") {
+    echo "<script>console.log('Esta joda NO fue pasada por test. Recíbala.');</script>";
+    echo "<script>console.log('" . $response->{"data"}->{"x_test_request"} . "');</script>";
 
-  $alert_message = "ID factura: <strong>" . $response->{"data"}->{"x_id_invoice"} . "</strong><br>";
-  $alert_message .= "Ref. ePayco: <strong>" . $response->{"data"}->{"x_ref_payco"} . "</strong><hr>";
-  $alert_message .= "Estado: <strong>0" . $response->{"data"}->{"x_cod_transaction_state"} . " - " . $response->{"data"}->{"x_transaction_state"} . "</strong><hr>";
-  $alert_message .= "Monto facturado: <strong>" . $response->{"data"}->{"x_currency_code"} . "$" . $response->{"data"}->{"x_amount_ok"} . "</strong><br>";
-  $alert_message .= "Fecha facturación: <strong>" . $response->{"data"}->{"x_transaction_date"} . "</strong><br>";
+    $sqlPay = $conn->query("UPDATE cdp_pagos SET REFEPAYCO = '" . $response->{"data"}->{"x_ref_payco"} . "', APIEPAYCO = '" . $ref_payco . "'  WHERE cdp_facturas_IDFACTURA = '" . $response->{"data"}->{"x_id_invoice"} . "';");
+    if ($sqlPay) echo "<script>console.log('Actualización de datos de PAGO exitosa.');</script>";
+    else echo '<script>console.log("Error en datos de PAGO: ' . $conn->error . '.");</script>';
 
-  switch ((int) $response->{"data"}->{"x_cod_transaction_state"}) {
-    case 1:
-      //Aceptada
-      $alert_state = "alert-success";
-      $sqlStatePay = $conn->query("UPDATE cdp_pagos SET ESTADOPAGO = '1'  WHERE cdp_facturas_IDFACTURA = '" . $response->{"data"}->{"x_id_invoice"} . "';");
-      if ($sqlStatePay) echo "<script>console.log('Actualización de estado de PAGO exitosa.');</script>";
-      else echo '<script>console.log("Error en estado de PAGO: ' . $conn->error . '.");</script>';
-      break;
-    case 2:
-      //Rechazada
-    case 4:
-      //Fallida
-    case 9:
-      //Expirada
-    case 10:
-      //Abandonada
-    case 11:
-      //Cancelada
-    case 12:
-      //Antifraude
-      $alert_state = "alert-danger";
-      $sqlStatePay = $conn->query("UPDATE cdp_pagos SET ESTADOPAGO = '0'  WHERE cdp_facturas_IDFACTURA = '" . $response->{"data"}->{"x_id_invoice"} . "';");
-      if ($sqlStatePay) echo "<script>console.log('Actualización de estado de PAGO exitosa.');</script>";
-      else echo '<script>console.log("Error en estado de PAGO: ' . $conn->error . '.");</script>';
-      break;
-    case 3:
-      //Pendiente
-    case 6:
-      //Reversada
-    case 7:
-      //Retenida
-      $alert_state = "alert-warning";
-      $sqlStatePay = $conn->query("UPDATE cdp_pagos SET ESTADOPAGO = '0'  WHERE cdp_facturas_IDFACTURA = '" . $response->{"data"}->{"x_id_invoice"} . "';");
-      if ($sqlStatePay) echo "<script>console.log('Actualización de estado de PAGO exitosa.');</script>";
-      else echo '<script>console.log("Error en estado de PAGO: ' . $conn->error . '.");</script>';
-      break;
-    case 8:
-      //Iniciada
-      $alert_state = "alert-success";
-      $sqlStatePay = $conn->query("UPDATE cdp_pagos SET ESTADOPAGO = '0'  WHERE cdp_facturas_IDFACTURA = '" . $response->{"data"}->{"x_id_invoice"} . "';");
-      if ($sqlStatePay) echo "<script>console.log('Actualización de estado de PAGO exitosa.');</script>";
-      else echo '<script>console.log("Error en estado de PAGO: ' . $conn->error . '.");</script>';
-      break;
-    default:
-      $alert_state = "alert-danger";
-      $alert_message = "Algo salió mal. Por favor, intente de nuevo...";
-      break;
+    $alert_message = "ID factura: <strong>" . $response->{"data"}->{"x_id_invoice"} . "</strong><br>";
+    $alert_message .= "Ref. ePayco: <strong>" . $response->{"data"}->{"x_ref_payco"} . "</strong><hr>";
+    $alert_message .= "Estado: <strong>0" . $response->{"data"}->{"x_cod_transaction_state"} . " - " . $response->{"data"}->{"x_transaction_state"} . "</strong><hr>";
+    $alert_message .= "Monto facturado: <strong>" . $response->{"data"}->{"x_currency_code"} . "$" . $response->{"data"}->{"x_amount_ok"} . "</strong><br>";
+    $alert_message .= "Fecha facturación: <strong>" . $response->{"data"}->{"x_transaction_date"} . "</strong><br>";
+
+    switch ((int) $response->{"data"}->{"x_cod_transaction_state"}) {
+      case 1:
+        //Aceptada
+        $alert_state = "alert-success";
+        $sqlStatePay = $conn->query("UPDATE cdp_pagos SET ESTADOPAGO = '1'  WHERE cdp_facturas_IDFACTURA = '" . $response->{"data"}->{"x_id_invoice"} . "';");
+        if ($sqlStatePay) echo "<script>console.log('Actualización de estado de PAGO exitosa.');</script>";
+        else echo '<script>console.log("Error en estado de PAGO: ' . $conn->error . '.");</script>';
+        break;
+      case 2:
+        //Rechazada
+      case 4:
+        //Fallida
+      case 9:
+        //Expirada
+      case 10:
+        //Abandonada
+      case 11:
+        //Cancelada
+      case 12:
+        //Antifraude
+        $alert_state = "alert-danger";
+        $sqlStatePay = $conn->query("UPDATE cdp_pagos SET ESTADOPAGO = '0'  WHERE cdp_facturas_IDFACTURA = '" . $response->{"data"}->{"x_id_invoice"} . "';");
+        if ($sqlStatePay) echo "<script>console.log('Actualización de estado de PAGO exitosa.');</script>";
+        else echo '<script>console.log("Error en estado de PAGO: ' . $conn->error . '.");</script>';
+        break;
+      case 3:
+        //Pendiente
+      case 6:
+        //Reversada
+      case 7:
+        //Retenida
+        $alert_state = "alert-warning";
+        $sqlStatePay = $conn->query("UPDATE cdp_pagos SET ESTADOPAGO = '0'  WHERE cdp_facturas_IDFACTURA = '" . $response->{"data"}->{"x_id_invoice"} . "';");
+        if ($sqlStatePay) echo "<script>console.log('Actualización de estado de PAGO exitosa.');</script>";
+        else echo '<script>console.log("Error en estado de PAGO: ' . $conn->error . '.");</script>';
+        break;
+      case 8:
+        //Iniciada
+        $alert_state = "alert-success";
+        $sqlStatePay = $conn->query("UPDATE cdp_pagos SET ESTADOPAGO = '0'  WHERE cdp_facturas_IDFACTURA = '" . $response->{"data"}->{"x_id_invoice"} . "';");
+        if ($sqlStatePay) echo "<script>console.log('Actualización de estado de PAGO exitosa.');</script>";
+        else echo '<script>console.log("Error en estado de PAGO: ' . $conn->error . '.");</script>';
+        break;
+      default:
+        $alert_state = "alert-danger";
+        $alert_message = "Algo salió mal. Por favor, intente de nuevo...";
+        break;
+    }
   }
 ?>
   <link rel="stylesheet" href="plugin/css/login.css">
