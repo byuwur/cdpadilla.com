@@ -1,6 +1,17 @@
 <?php
 require("./header.php");
 session_start();
+
+/*function curl_get_contents($url) {
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_HEADER, 0);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_URL, $url);
+  $data = curl_exec($ch);
+  curl_close($ch);
+  return $data;
+}*/
+
 if (isset($_GET['ref_payco'])) {
   $ref_payco = trim($_GET['ref_payco']);
   $ref_payco = strip_tags($ref_payco);
@@ -8,7 +19,9 @@ if (isset($_GET['ref_payco'])) {
 
   $response = json_decode(file_get_contents("https://secure.epayco.co/validation/v1/reference/$ref_payco"));
 
-  /*$mail_asunto = "Mail subject.";
+  /*$response = json_decode(curl_get_contents("https://secure.epayco.co/validation/v1/reference/$ref_payco"));
+  
+  $mail_asunto = "Mail subject.";
   $mail_header = "From: mateus@mnm.team\r\nMIME-Version: 1.0\r\nContent-type: text/html; charset=iso-8859-1\r\n";
   $mail_message = ' <html><body>Mail text.</body></html> ';
   mail($email, $mail_asunto, $mail_message, $mail_header);*/
