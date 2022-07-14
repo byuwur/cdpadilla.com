@@ -1,4 +1,5 @@
 <?php
+session_start();
 require("./_connect.php");
 require("./_functions.php");
 require("./_values.php");

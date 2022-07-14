@@ -1,6 +1,5 @@
 <?php
 require("./header.php");
-session_start();
 
 /*function curl_get_contents($url) {
   $ch = curl_init();

@@ -6,7 +6,6 @@ if (!isset($_SESSION['admin']))
 	header("Location: ./login.php");
 
 if (isset($_GET['logout'])) {
-	session_start();
 	unset($_SESSION['admin']);
 	session_unset();
 	session_destroy();
